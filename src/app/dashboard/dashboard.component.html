@@ -1,19 +1,21 @@
 
-<!-- Topbar  -->
+
 <mat-toolbar color="primary">
   <button mat-icon-button (click)="drawer.toggle()">
     <mat-icon matSuffix>menu</mat-icon>
   </button>
   <span>welcome {{ api.currentUser?.name }}</span>
   <button mat-icon-button (click)="open(list)" class="end">
-    <mat-icon matSuffix>person_add</mat-icon>
+    <img src="https://cdn3.vectorstock.com/i/1000x1000/06/22/flat-icon-of-add-friend-vector-14550622.jpg" class="userimg">
   </button>
-  <button mat-icon-button (click)="logoutModal(logoutContent)" class="end">
-    <mat-icon matSuffix>exit_to_app</mat-icon>
-  </button>
+
+    <div class="end">
+      <img (click)="logoutModal(logoutContent)" src="https://miro.medium.com/max/800/1*peMgcGzIdn5O36ecjwrKxw.jpeg" width="100px" >
+    </div>
+ 
 </mat-toolbar>
 
-<!-- Conversations sidebar - start -->
+
 <mat-drawer-container class="example-container" autosize>
   <mat-drawer #drawer class="example-sidenav" mode="side" opened>
     <mat-form-field>
@@ -27,19 +29,17 @@
       itemSize="50"
       *ngIf="api.currentUser && api.currentUser.conversations"
     >
-      <mat-list-item
+      <div class="selction"
         *ngFor="let x of api.currentUser.conversations | filterBy: userFilter"
         (click)="selectUser(x)"
       >
-        <mat-icon matListIcon >folder</mat-icon>
-        <h3 matLine class="text-primary">{{ x?.name }}</h3>
-        <p matLine>
-          
-          <span class="demo-2 text-muted small">
-            {{ x.timestamp?.toDate() | date: "dd MMM hh:mm" }}</span
-          >
-        </p>
-      </mat-list-item>
+      <span>
+        <img src="{{x.image ? x.image : 'https://ptetutorials.com/images/user-profile.png'}}"
+        class="userimg"
+        alt="{{ x?.name }}"/>
+        <span  class="text-primary heading">{{ x?.name }}</span>
+        </span>
+      </div>
     </mat-list>
   </mat-drawer>
 
@@ -53,10 +53,9 @@
         <div *cdkVirtualFor="let x of messages; let i = index">
           <div class="incoming_msg" *ngIf="x.senderId !== api.currentUser.uid">
             <div class="incoming_msg_img">
-              <img
-                src="https://ptetutorials.com/images/user-profile.png"
-                alt="sunil"
-              />
+              <img src="{{x.image ? x.image : 'https://ptetutorials.com/images/user-profile.png'}}"
+              class="userimg"
+              alt="{{ x?.name }}"/>
             </div>
             <div class="received_msg">
               <div class="received_withd_msg">
@@ -107,15 +106,20 @@
     </div>
   </div>
 </mat-drawer-container>
-<!-- Conversations sidebar - ends -->
 
 
-<!-- user-list template - start -->
+
+
 <ng-template #list>
   <mat-list role="list" cdk-virtual-scroll-viewport itemSize="10" *ngIf="users">
+    <mat-form-field>
+      <input matInput placeholder="Search user"  
+      [(ngModel)]="alluserFilter.name"
+      />
+    </mat-form-field>
     <mat-list-item
       role="listitem"
-      *ngFor="let x of users "
+      *ngFor="let x of users | filterBy: alluserFilter"
       (click)="selectUser(x)">
       <div>
       {{ x?.name }}
@@ -123,10 +127,10 @@
     </mat-list-item>
   </mat-list>
 </ng-template>
-<!-- user-list template - ends -->
 
 
-<!-- logout-content - start -->
+
+
 <ng-template #logoutContent>
   Are you sure you want to Log out? <br />
   <br />
@@ -135,5 +139,5 @@
   </button>
   <button mat-button (click)="closeModal()">cancel</button>
 </ng-template>
-<!-- logout-content - start -->
+
 

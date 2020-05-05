@@ -56,7 +56,6 @@ export class LoginComponent implements OnInit {
           this.spinner.hide()
           this.router.navigate(["/dashboard"]).then(() => {
             console.log("the current user form login", data);
-            //  console.log(this.api.currentUser)
           });
         },
         (err) => { this.helper.openSnackBar(err.message, "Close");this.spinner.hide()}

@@ -26,15 +26,25 @@
     margin-left: auto;
  } 
 
+ .heading{
+   padding:5%;
 
+ }
 
-
-
-
-
- 
-
-
+ .selction{
+   cursor: pointer;
+   padding: 7%;
+ }
+ .selction:hover{
+   color:black;
+   background-color:cornsilk;
+   border-radius: 20%;
+ }
+ .userimg{
+  width:50px;
+  border-radius: 50%;
+  height: 50px;
+ }
 
  .container{max-width:1170px; margin:auto;}
 img{ max-width:90%;}

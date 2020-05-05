@@ -25,6 +25,7 @@ export interface User{
   uid:string,
   name:string,
   email:string,   
+  image:string,
   conversations?:Array<any>
 }
 
@@ -57,6 +58,7 @@ export class ApiService {
       uid: uid,
       name: data.name,
       email: data.email,
+      image:data.image,
       conversations:data.conversations
     })
   }
@@ -100,9 +102,11 @@ export class ApiService {
 
 
   async addConvo(user){
-    let userMsg ={name:user.name, uid: user.uid,chatId: this.chat.chatId}
-    let otherMsg={name:this.currentUser.name, uid: this.currentUser.uid, chatId:this.chat.chatId}
+    let userMsg ={name:user.name, uid: user.uid,chatId: this.chat.chatId,image:user.image}
+    let otherMsg={name:this.currentUser.name, uid: this.currentUser.uid, chatId:this.chat.chatId,image:this.currentUser.image}
     //first set both references.  
+    console.log("image from user",)
+    console.log("image from current user",this.currentUser.image)
     let myReference = this.afs.doc('users/'+ this.currentUser.uid);
     let otherReference = this.afs.doc('users/'+ user.uid);
     // Updating my profile 
@@ -167,6 +171,7 @@ export class ApiService {
       conversations:[],
       name:'',
       email:'',
+      image:'',
       uid:''
     }
     this.chat = null;

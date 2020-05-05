@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SignupComponent } from './signup/signup.component';
+import {AuthGuard} from './auth.guard';
 
 //material
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -56,7 +57,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     FilterPipeModule
 
   ],
-  providers: [],
+  providers: [ AuthGuard ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

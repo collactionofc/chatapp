@@ -22,9 +22,7 @@ export class SignupComponent implements OnInit {
     Validators.minLength(3),
   ]);
 
-  imageFormControl = new FormControl("", [
-    Validators.required
-  ]);
+  imageFormControl = new FormControl(" ", []);
   
   emailFormControl = new FormControl("", [
     Validators.required,
@@ -64,9 +62,10 @@ export class SignupComponent implements OnInit {
       this.passwordFormControl.reset();
       return;
     }
-    console.log("name", this.nameFormControl.value);
-    console.log("email", this.emailFormControl.value);
-    console.log("pass", this.passwordFormControl.value);
+
+ 
+
+ 
 
     this.api.userexist(this.nameFormControl.value).subscribe(async(res) => {
       this.spinner.show();

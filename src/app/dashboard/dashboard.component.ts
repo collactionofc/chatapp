@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit {
   message: string = ''; 
 
   userFilter ={name:''};
+  alluserFilter={name:''};
 
   constructor(
     private helper: HelperService,
@@ -41,12 +42,13 @@ export class DashboardComponent implements OnInit {
 
   getAllUsers() {
     this.api.setCurrentUser(localStorage.getItem('uid')) 
+    let id;
     this.api.getUsers().pipe(
       map(actions => {
        
         return actions.map(a => {
           let data = a.payload.doc.data();
-          let id = a.payload.doc.id;
+          id = a.payload.doc.id;
           return {...data}
         })
       })
@@ -54,6 +56,7 @@ export class DashboardComponent implements OnInit {
       console.log('all users', data)
         this.users = data.filter((item)=>{
           let find = this.api.currentUser.conversations.find(el => el.uid == item.uid);
+          console.log("comman find",find)
           if(!find){
             return item;
           }     
@@ -92,10 +95,10 @@ export class DashboardComponent implements OnInit {
     } catch (e) { console.log(e) }
 
     if (this.api.currentUser.conversations == undefined || this.api.currentUser.conversations == null ) {
-      //means user has no conversations.
+      
       this.api.currentUser.conversations = [];
     }
-    //add if convo not empty
+    
     let convo = [...this.api.currentUser.conversations]; 
     let find = convo.find(item => item.uid == user.uid); 
     if (find) { 
@@ -119,23 +122,24 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  /* Sending a  Message */
+  
   sendMessage() {
-    // If message string is empty
+    
     if (this.message == '') {
       alert('Enter message');
       return
     }
-    //set the message object 
+  
     let msg = {
       senderId: this.api.currentUser.uid,
       senderName: this.api.currentUser.name,
+      image:this.api.currentUser.image,
       timestamp: new Date(),
       content: this.message
     };
-    //empty message
+  
     this.message = '';
-    //update 
+  
     this.messages.push(msg);
     console.log('list', this.messages);
     this.api.pushNewMessage(this.messages).then(() => {
@@ -143,7 +147,7 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  //Scroll to the bottom 
+  
   public triggerScrollTo() {
     const config: ScrollToConfigOptions = {
       target: 'destination'
@@ -151,7 +155,7 @@ export class DashboardComponent implements OnInit {
     this._scrollToService.scrollTo(config);
   }
 
-  // Firebase Server Timestamp
+  
   get timestamp() {
     return firebase.firestore.FieldValue.serverTimestamp();
   }
